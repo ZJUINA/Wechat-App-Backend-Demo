@@ -9,12 +9,13 @@ import (
 var BasicRouter *gin.Engine
 
 func init() {
-	mDAO.DBinit()
+	mDAO.DBInit()
 	BasicRouter = gin.Default()
 	v0.RegisterMusic(BasicRouter)
 }
 
 func main() {
 	//conf.Init() 暂时没用到conf， 先放在这
+
 	BasicRouter.Run(":8080")
 }

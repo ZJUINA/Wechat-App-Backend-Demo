@@ -35,8 +35,9 @@ func ListSongs(context *gin.Context) {
 }
 
 func ListComments(context *gin.Context) {
+	log.Println("come in")
 	req := new(mdDef.CommentMusicReq)
-	err := context.ShouldBindJSON(req)
+	err := context.ShouldBind(req)
 	if err != nil {
 		log.Println(err)
 		context.JSON(http.StatusBadRequest, nil)
