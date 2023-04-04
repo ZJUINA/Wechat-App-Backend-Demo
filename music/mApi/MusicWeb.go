@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 func Hello(context *gin.Context) {
@@ -64,6 +65,52 @@ func UploadComment(context *gin.Context) {
 	if err != nil {
 		log.Println(err)
 		context.JSON(http.StatusBadRequest, nil)
+	}
+	context.JSON(http.StatusOK, resp)
+}
+
+func PlaySong(context *gin.Context) {
+
+	songId := context.Param("id")
+	id, err := strconv.Atoi(songId)
+	if err != nil {
+		log.Println("string conversion error : " + err.Error())
+		context.JSON(http.StatusBadRequest, nil)
+		return
+	}
+	err = mService.PlaySong(uint(id))
+	if err != nil {
+		log.Println("PlaySong service interface error : " + err.Error())
+		context.JSON(http.StatusBadRequest, nil)
+		return
+	}
+	context.JSON(http.StatusOK, nil)
+}
+
+func GetPlayTimes(context *gin.Context) {
+	songId := context.Param("id")
+	var resp int
+	id, err := strconv.Atoi(songId)
+	if err != nil {
+		log.Println("string conversion error : " + err.Error())
+		context.JSON(http.StatusBadRequest, resp)
+		return
+	}
+	resp, err = mService.GetPlayedTimes(uint(id))
+	if err != nil {
+		log.Println("GetPlayTimes service interface error : " + err.Error())
+		context.JSON(http.StatusBadRequest, resp)
+		return
+	}
+	context.JSON(http.StatusOK, resp)
+}
+
+func GetPlayList(context *gin.Context) {
+	resp, err := mService.GetPlayList()
+	if err != nil {
+		log.Println("GetPlayList service interface error : " + err.Error())
+		context.JSON(http.StatusBadRequest, nil)
+		return
 	}
 	context.JSON(http.StatusOK, resp)
 }

@@ -11,4 +11,7 @@ func RegisterMusic(BasicRouter *gin.Engine) {
 	Music.POST("/ListSongs", mApi.ListSongs)
 	Music.POST("/ListComments", mApi.ListComments)
 	Music.POST("/UploadComment", mApi.UploadComment)
+	Music.GET("/PlaySong/:id", mApi.PlaySong)
+	Music.GET("/GetPlayedTimes/:id", mApi.GetPlayTimes)
+	Music.GET("/GetPlayList", mApi.GetPlayList)
 }
