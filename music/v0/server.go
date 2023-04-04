@@ -10,4 +10,5 @@ func RegisterMusic(BasicRouter *gin.Engine) {
 	Music := BasicRouter.Group("/music")
 	Music.POST("/ListSongs", mApi.ListSongs)
 	Music.POST("/ListComments", mApi.ListComments)
+	Music.POST("/UploadComment", mApi.UploadComment)
 }

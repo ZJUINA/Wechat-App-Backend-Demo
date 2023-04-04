@@ -23,16 +23,17 @@ func DBInit() {
 		log.Println("initialize gorm DB error : " + err.Error())
 	} else {
 		migrator := MysqlDB.Migrator()
-		if !migrator.HasTable(&mdDef.CommentMusicBasic{}) {
-			migrator.CreateTable(&mdDef.CommentMusicBasic{})
+		if !migrator.HasTable("music_comments") {
+			migrator.CreateTable(&mdDef.CommentBasic{})
+			newItem := mdDef.CommentBasic{Name: "一万次悲伤", Content: "逃跑计划-世界", Tags: "test"}
+			MysqlDB.Create(&newItem)
+			newItem = mdDef.CommentBasic{Name: "一万次悲伤", Content: "每一颗眼泪是一万道光", Tags: "test"}
+			MysqlDB.Create(&newItem)
+			newItem = mdDef.CommentBasic{Name: "一万次悲伤", Content: "我一直在最后的地方等你", Tags: "test"}
+			MysqlDB.Create(&newItem)
+			migrator.RenameTable(&mdDef.CommentBasic{}, "music_comments")
 		}
-		newItem := mdDef.CommentMusicBasic{Name: "一万次悲伤", Content: "逃跑计划-世界", Tags: "test"}
-		MysqlDB.Create(&newItem)
-		newItem = mdDef.CommentMusicBasic{Name: "一万次悲伤", Content: "每一颗眼泪是一万道光", Tags: "test"}
-		MysqlDB.Create(&newItem)
-		newItem = mdDef.CommentMusicBasic{Name: "一万次悲伤", Content: "我一直在最后的地方等你", Tags: "test"}
-		MysqlDB.Create(&newItem)
-		migrator.RenameTable(&mdDef.CommentMusicBasic{}, "music_comments")
+
 	}
 
 }

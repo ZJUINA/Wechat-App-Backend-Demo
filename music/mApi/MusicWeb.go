@@ -17,6 +17,7 @@ func Hello(context *gin.Context) {
 // 为了swag识别接口， 通常需要加一些接口描述， 是格式化的， 需要阅读文档
 // todo: complete swag description
 func ListSongs(context *gin.Context) {
+	log.Println("come into ListSongs function")
 	req := new(mdDef.ListSongsReq)
 	err := context.BindJSON(req)
 	if err != nil {
@@ -35,15 +36,31 @@ func ListSongs(context *gin.Context) {
 }
 
 func ListComments(context *gin.Context) {
-	log.Println("come in")
-	req := new(mdDef.CommentMusicReq)
+	log.Println("come into ListComments function")
+	req := new(mdDef.ReturnCommentReq)
 	err := context.ShouldBind(req)
 	if err != nil {
 		log.Println(err)
 		context.JSON(http.StatusBadRequest, nil)
 	}
 
-	resp, err := mService.ListCommentMusic(req)
+	resp, err := mService.ListComment(req)
+	if err != nil {
+		log.Println(err)
+		context.JSON(http.StatusBadRequest, nil)
+	}
+	context.JSON(http.StatusOK, resp)
+}
+
+func UploadComment(context *gin.Context) {
+	log.Println("come into UploadComment function")
+	req := new(mdDef.UploadCommentReq)
+	err := context.ShouldBind(req)
+	if err != nil {
+		log.Println(err)
+		context.JSON(http.StatusBadRequest, nil)
+	}
+	resp, err := mService.WriteComment(req)
 	if err != nil {
 		log.Println(err)
 		context.JSON(http.StatusBadRequest, nil)

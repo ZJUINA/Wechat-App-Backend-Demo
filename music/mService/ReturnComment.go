@@ -7,14 +7,14 @@ import (
 	"log"
 )
 
-func ListCommentMusic(req *mdDef.CommentMusicReq) (*msDef.ListCommentMusicResp, error) {
+func ListComment(req *mdDef.ReturnCommentReq) (*msDef.ListCommentResp, error) {
 	//log.Println("not implemented")
-	daoResp, err := mDAO.ListCommentMusic(req)
+	daoResp, err := mDAO.ListComment(req)
 	if err != nil {
 		log.Println("Dao Error : " + err.Error())
 		return nil, err
 	}
-	resp := new(msDef.ListCommentMusicResp)
+	resp := new(msDef.ListCommentResp)
 	resp.CommentMusicData = daoResp
 	resp.Length = len(daoResp)
 	return resp, nil
